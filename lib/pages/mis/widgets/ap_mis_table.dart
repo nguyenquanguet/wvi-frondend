@@ -41,9 +41,7 @@ class DriversTable extends StatelessWidget {
                 minWidth: 1200,
                 columns: const [
                   DataColumn2(
-                    label: Text('Indicator Code'),
-                    size: ColumnSize.L,
-                  ),
+                    label: Text('Indicator Code'), fixedWidth: 120),
                   DataColumn(
                     label: Text('Year'),
                   ),
@@ -53,9 +51,8 @@ class DriversTable extends StatelessWidget {
                   DataColumn(
                     label: Text('Target'),
                   ),
-                  DataColumn(
-                    label: Text('Actual Achieve'),
-                  ),
+                  DataColumn2(
+                      label: Text('Actual Achieve'), fixedWidth: 120),
                   DataColumn(
                     label: Text('Boy'),
                   ),
@@ -73,6 +70,15 @@ class DriversTable extends StatelessWidget {
                   ),
                   DataColumn(
                     label: Text('RC'),
+                  ),
+                  DataColumn(
+                    label: Text('D1'),
+                  ),
+                  DataColumn(
+                    label: Text('D2'),
+                  ),
+                  DataColumn(
+                    label: Text('D3'),
                   ),
                 ],
                 rows: counterController.statusResponseDisplay.isEmpty
@@ -109,20 +115,18 @@ class DriversTable extends StatelessWidget {
                             DataCell(CustomText(
                               text: 'N/A',
                             )),
-                            // DataCell(Container(
-                            //   decoration: BoxDecoration(
-                            //       border: Border.all(color: active, width: 5),
-                            //       color: light,
-                            //       borderRadius: BorderRadius.circular(20)),
-                            //   padding: const EdgeInsets.symmetric(
-                            //       horizontal: 12, vertical: 6),
-                            //   child: const CustomText(
-                            //     text: "User Options",
-                            //   ),
-                            // )),
                             DataCell(CustomText(
                               text: 'N/A',
                             )),
+                            DataCell(CustomText(
+                              text: 'N/A',
+                            )),
+                            DataCell(CustomText(
+                              text: 'N/A',
+                            )),
+                            DataCell(CustomText(
+                              text: 'N/A',
+                            ))
                           ],
                         ),
                       ]
@@ -170,17 +174,6 @@ class DriversTable extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              // DataCell(Container(
-                              //   decoration: BoxDecoration(
-                              //       border: Border.all(color: active, width: 5),
-                              //       color: light,
-                              //       borderRadius: BorderRadius.circular(20)),
-                              //   padding: const EdgeInsets.symmetric(
-                              //       horizontal: 12, vertical: 6),
-                              //   child: const CustomText(
-                              //     text: "User Options",
-                              //   ),
-                              // )),
                               DataCell(CustomText(
                                 text: DateFormat('dd/MM/yyyy hh:mm a')
                                     .format(element.createdDate),

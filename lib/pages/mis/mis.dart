@@ -1,40 +1,49 @@
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import 'package:vnmo_mis/controllers/mis_controller.dart';
-import 'package:vnmo_mis/pages/clients/widgets/target_data.dart';
-import 'package:vnmo_mis/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vnmo_mis/controllers/mis_controller.dart';
+import 'package:vnmo_mis/pages/clients/widgets/input_mis_data.dart';
+import 'package:vnmo_mis/widgets/custom_text.dart';
 
 import '../../constants/controllers.dart';
 import '../../controllers/transaction_controller.dart';
 import '../../helpers/responsiveness.dart';
-import '../clients/widgets/special_booking.dart';
-import 'widgets/drivers_table.dart';
+import '../../service/storage/constant_name.dart';
+import 'widgets/ap_mis_table.dart';
 
 class MisPage extends StatelessWidget {
-  const MisPage({Key? key}) : super(key: key);
+
+  final MisController misController = Get.put(MisController());
+  final year = TextEditingController();
+
+  final List<String> listYear = ["FY22", "FY23"];
+
+  MisPage({super.key});
+
+  int? getYear (String year){
+    switch(year){
+      case "FY22":
+        return 2022;
+      case "FY23":
+        return 2023;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    var config = CalendarDatePicker2WithActionButtonsConfig(
-      calendarType: CalendarDatePicker2Type.range,
-      selectedDayHighlightColor: Colors.orange,
-    );
-
-    final TransactionController counterController = Get.put(TransactionController());
-    final MisController misController = Get.put(MisController());
-
+    final TransactionController counterController =
+        Get.put(TransactionController());
     return Column(
       children: [
         Obx(() => Row(
               children: [
                 Container(
                   margin: EdgeInsets.only(
-                      top: ResponsiveWidget.isSmallScreen(context) ? 56 : 6),
+                      top: ResponsiveWidget.isSmallScreen(context) ? 100 : 20),
                   child: CustomText(
-
-                    text: "${menuController.activeItem.value} VNMO Data of AP: ${counterController.getApName()}" ,
-                    size: 24,
+                    text:
+                        "${menuController.activeItem.value} VNMO Data of AP: ${counterController.getApName()}",
+                    size: ResponsiveWidget.isSmallScreen(context) ? 16 : 24,
                     weight: FontWeight.bold,
                   ),
                 ),
@@ -43,47 +52,48 @@ class MisPage extends StatelessWidget {
         const SizedBox(height: 10),
         Row(
           children: [
-            // ElevatedButton(
-            //     onPressed: () {
-            //       counterController.refreshList();
-            //     },
-            //     child: const Text("Refresh List")),
-            // const SizedBox(width: 9),
-            // ElevatedButton(
-            //     onPressed: () {
-            //       counterController.getTransactionToday();
-            //     },
-            //     child: const Text("Sort By Today")),
-            // const SizedBox(width: 9),
-            // ElevatedButton(
-            //     onPressed: () {
-            //       counterController.getTransaction();
-            //     },
-            //     child: const Text("Default Weekly List")),
-            const SizedBox(width: 9),
-            // ElevatedButton(
-            //     style: ElevatedButton.styleFrom(
-            //       backgroundColor: Colors.orange,
-            //     ),
-            //     onPressed: () async {
-            //       var values = await showCalendarDatePicker2Dialog(
-            //         context: context,
-            //         config: config,
-            //         dialogSize: const Size(325, 400),
-            //         borderRadius: const BorderRadius.all(Radius.circular(15)),
-            //         initialValue: [],
-            //         dialogBackgroundColor: Colors.white,
-            //       );
-            //       if (values != null) {
-            //         counterController.getValueText(
-            //           config.calendarType,
-            //           values,
-            //         );
-            //       }
-            //     },
-            //     child: const Text("Select Year")),
-            const SizedBox(width: 9),
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              width: ResponsiveWidget.isSmallScreen(context) ? 160 : 180,
+              height: 100,
+              alignment: Alignment.center,
+              child: FormField<String>(
+                builder: (FormFieldState<String> state) {
+                  return InputDecorator(
+                    decoration: const InputDecoration(
+                        labelText: 'Select FY',
+                        errorStyle: TextStyle(
+                            color: Colors.orange, fontSize: 10.0),
+                        hintText: 'Please select FY',),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButtonFormField<String>(
+                        validator: (value) {
+                          return 'Please enter FY';
+                        },
+                        hint: const Text('Please select FY'),
+                        isDense: true,
+                        onChanged: (String? newValue) async {
+                          SharedPreferences pref = await SharedPreferences.getInstance();
+                          int? inputYear = getYear(newValue.toString());
+                          pref.setInt(ConstantName().year, inputYear!);
+                        },
+                        items: listYear.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
             ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(ResponsiveWidget.isSmallScreen(context) ? 160 : 180, 80),
+                  backgroundColor: Colors.orange,
+                ),
                 onPressed: () {
                   showDialog(
                       context: context,
@@ -93,22 +103,11 @@ class MisPage extends StatelessWidget {
                     misController.onInit();
                   });
                 },
-                child: const Text("Input Target")),
-
-            ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (_) {
-                        return const DialogSpecialBooking();
-                      }).then((value) {
-                    counterController.onInit();
-                  });
-                },
-                child: const Text("Input Data Mis")),
+                child: const Text("Input Data")),
           ],
         ),
         const SizedBox(height: 30),
+
         Expanded(
           child: DriversTable(),
         ),

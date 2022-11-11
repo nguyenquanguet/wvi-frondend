@@ -18,13 +18,7 @@ class MisService {
       {int? tpId, int? indicatorId, int? year, int? month}) async {
     SharedPreferences data = await SharedPreferences.getInstance();
     final response = await get(
-        Uri.parse('${ApiPath.apMisPath}${data.getInt(ConstantName().apId)}')
-            .replace(queryParameters: {
-              'tpId': tpId,
-              'indicatorId': indicatorId,
-              'year': year,
-              'month': month
-        }),
+        Uri.parse('${ApiPath.apMisPath}${data.getInt(ConstantName().apId)}'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept-Language': 'en'
@@ -39,10 +33,9 @@ class MisService {
     }
   }
   
-  Future<Indicator> getApIndicator() async {
-    SharedPreferences data = await SharedPreferences.getInstance();
+  Future<Indicator> getIndicatorByTpId(int tpId) async {
     final response = await get(
-      Uri.parse("${ApiPath.indicatorListPath}${data.getInt(ConstantName().apId)}"),
+      Uri.parse("${ApiPath.indicatorListPath}$tpId"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept-Language': "en",
@@ -51,17 +44,16 @@ class MisService {
       const SnackBars().snackBarFail(serverError, "indicator");
     });
 
-    if (response.statusCode == 200 || response.statusCode == 400) {
+    if (response.statusCode == 200) {
       return Indicator.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       throw Exception(serverError);
     }
   }
 
-  Future<Tp> getAppTp() async {
-    SharedPreferences data = await SharedPreferences.getInstance();
+  Future<Tp> getLisTp() async {
     final response = await get(
-      Uri.parse("${ApiPath.tpList}${data.getInt(ConstantName().apId)}"),
+      Uri.parse(ApiPath.tpList),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept-Language': "en",
@@ -73,6 +65,24 @@ class MisService {
       return Tp.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       throw Exception(serverError);
+    }
+  }
+
+  Future createData(dynamic jsons) async {
+    print(jsons);
+    final response = await post(
+      Uri.parse(ApiPath.createData),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode(jsons),
+    ).catchError((onError) {
+      const SnackBars().snackBarFail("Error", "");
+    });
+    if (response.statusCode == 200) {
+      return 200;
+    } else {
+      return 400;
     }
   }
 }

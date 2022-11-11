@@ -18,11 +18,11 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     // case clientsPageRoute:
     //   return _getPageRoute(ClientsPage());
     case misPageRoute:
-      return _getPageRoute(const MisPage());
+      return _getPageRoute(MisPage());
     // case salesPageRoute:
     //   return _getPageRoute(const SalesPage());
     default:
-      return _getPageRoute(const MisPage());
+      return _getPageRoute(MisPage());
   // return _getPageRoute(OverviewPage());
   }
 }
