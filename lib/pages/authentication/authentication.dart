@@ -5,9 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../constants/style.dart';
 import '../../controllers/authentication_controller.dart';
-import '../../controllers/counter_controller.dart';
-import '../../layout.dart';
-import '../../routing/routes.dart';
 
 class AuthenticationPage extends StatelessWidget {
   AuthenticationPage({Key? key}) : super(key: key);
@@ -18,13 +15,16 @@ class AuthenticationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Obx(
+
         () => authController.isLoading.value == true
             ? const Center(
                 child: CircularProgressIndicator(),
               )
             : Center(
                 child: Container(
+
                   constraints: const BoxConstraints(maxWidth: 400),
                   padding: const EdgeInsets.all(24),
                   child: Column(

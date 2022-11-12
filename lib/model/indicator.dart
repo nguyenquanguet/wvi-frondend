@@ -32,7 +32,10 @@ class Indicator {
 
 class DataIndicator {
   int? id;
+  int? tpId;
   String? code;
+  int? unitId;
+  int? targetType;
   String? description;
   String? note;
   String? createdAt;
@@ -42,7 +45,10 @@ class DataIndicator {
 
   DataIndicator(
       {this.id,
+        this.tpId,
         this.code,
+        this.unitId,
+        this.targetType,
         this.description,
         this.note,
         this.createdAt,
@@ -52,7 +58,10 @@ class DataIndicator {
 
   DataIndicator.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    tpId = json['tpId'];
     code = json['code'];
+    unitId = json['unitId'];
+    targetType = json['targetType'];
     description = json['description'];
     note = json['note'];
     createdAt = json['createdAt'];
@@ -64,7 +73,10 @@ class DataIndicator {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['tpId'] = tpId;
     data['code'] = code;
+    data['unitId'] = unitId;
+    data['targetType'] = targetType;
     data['description'] = description;
     data['note'] = note;
     data['createdAt'] = createdAt;

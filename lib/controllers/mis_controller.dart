@@ -8,6 +8,7 @@ import '../service/mis_service.dart';
 import '../service/transaction_service.dart';
 
 class MisController extends GetxController {
+
   final MisService _misService = MisService();
 
   var statusResponseDisplay = [].obs;
@@ -29,8 +30,9 @@ class MisController extends GetxController {
     final prefs = await SharedPreferences.getInstance();
   }
 
-  void getIndicatorList() async {
-    Indicator indicator = await _misService.getApIndicator();
+  void getIndicatorList(int? tpId) async {
+    int tp = tpId ?? 0;
+    Indicator indicator = await _misService.getIndicatorByTpId(tp);
     Future.delayed(const Duration(milliseconds: 500), () {
       isLoading.value = false;
     });
@@ -44,7 +46,7 @@ class MisController extends GetxController {
   }
 
   void getApTpList() async{
-    Tp tpApList = await _misService.getAppTp();
+    Tp tpApList = await _misService.getLisTp();
     Future.delayed(const Duration(milliseconds: 500), () {
       isLoading.value = false;
     });
