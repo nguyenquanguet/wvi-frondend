@@ -40,8 +40,7 @@ class DriversTable extends StatelessWidget {
                 horizontalMargin: 12,
                 minWidth: 1200,
                 columns: const [
-                  DataColumn2(
-                    label: Text('Indicator Code'), fixedWidth: 120),
+                  DataColumn2(label: Text('Indicator Code'), fixedWidth: 120),
                   DataColumn(
                     label: Text('Year'),
                   ),
@@ -51,8 +50,7 @@ class DriversTable extends StatelessWidget {
                   DataColumn(
                     label: Text('Target'),
                   ),
-                  DataColumn2(
-                      label: Text('Actual Achieve'), fixedWidth: 120),
+                  DataColumn2(label: Text('Actual Achieve'), fixedWidth: 120),
                   DataColumn(
                     label: Text('Boy'),
                   ),
@@ -141,42 +139,40 @@ class DriversTable extends StatelessWidget {
                                 text: element.phoneNumber,
                               )),
                               DataCell(CustomText(
-                                text: element.email,
+                                text: element.shiftName,
                               )),
                               DataCell(CustomText(
                                 text: element.activityName,
                               )),
                               DataCell(CustomText(
-                                text: element.totalBookedSlot,
-                              )),
-                              DataCell(CustomText(
-                                text: double.parse(element.totalPrice)
-                                    .toStringAsFixed(2),
+                                text: element.shiftName,
                               )),
                               DataCell(CustomText(
                                 text: element.shiftName,
                               )),
-                              DataCell(
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Chip(
-                                      padding: const EdgeInsets.all(0),
-                                      backgroundColor:
-                                          element.statusId == "Success"
-                                              ? Colors.green
-                                              : Colors.red,
-                                      label: CustomText(
-                                        text: element.statusId,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                               DataCell(CustomText(
-                                text: DateFormat('dd/MM/yyyy hh:mm a')
-                                    .format(element.createdDate),
+                                text: element.shiftName,
+                              )),
+                              DataCell(CustomText(
+                                text: element.shiftName,
+                              )),
+                              DataCell(CustomText(
+                                text: element.shiftName,
+                              )),
+                              DataCell(CustomText(
+                                text: element.shiftName,
+                              )),
+                              DataCell(CustomText(
+                                text: element.shiftName,
+                              )),
+                              DataCell(CustomText(
+                                text: element.shiftName,
+                              )),
+                              DataCell(CustomText(
+                                text: element.shiftName,
+                              )),
+                              DataCell(CustomText(
+                                text: element.shiftName,
                               )),
                             ],
                           ),

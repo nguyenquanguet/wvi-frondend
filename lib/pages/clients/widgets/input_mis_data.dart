@@ -204,7 +204,7 @@ class _TargetData extends State<TargetData> {
                             decoration: InputDecoration(
                                 labelText: 'Indicator Code',
                                 errorStyle: const TextStyle(
-                                    color: Colors.orange, fontSize: 16.0),
+                                    color: Colors.orange, fontSize: 10.0),
                                 hintText: 'Please select indicator code',
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5.0)),
@@ -232,7 +232,7 @@ class _TargetData extends State<TargetData> {
                                 items: indicatorList.map((DataIndicator value) {
                                   return DropdownMenuItem<String>(
                                     value: value.code,
-                                    child: Text("${value.code}"),
+                                    child: Text("${value.code}: ${value.description}"),
                                   );
                                 }).toList(),
                               ),

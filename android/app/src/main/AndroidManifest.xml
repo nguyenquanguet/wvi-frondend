@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.dext_expenditure_dashboard">
-   <application
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
         android:label="VNMO MIS"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
