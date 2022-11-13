@@ -46,7 +46,6 @@ class MisController extends GetxController {
     misDataResponseDisplay.value = [];
     isLoading.value = true;
     List<MisDataIndicator>? misDataResponse = await _misService.getMisData();
-
     misDataResponseDisplay.value = misDataResponse ??= [];
     Future.delayed(const Duration(milliseconds: 500), () {
       isLoading.value = false;
