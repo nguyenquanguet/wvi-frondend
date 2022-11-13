@@ -8,7 +8,7 @@ import '../../../controllers/transaction_controller.dart';
 import '../../../widgets/custom_text.dart';
 
 class ApMisTable extends StatelessWidget {
-  ApMisTable();
+  ApMisTable({super.key});
 
   final MisController misController = Get.put(MisController());
 
