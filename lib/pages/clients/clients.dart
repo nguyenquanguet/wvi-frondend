@@ -1,7 +1,7 @@
-import 'package:vnmo_mis/pages/clients/widgets/add_activity.dart';
-import 'package:vnmo_mis/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vnmo_mis/pages/clients/widgets/add_activity.dart';
+import 'package:vnmo_mis/widgets/custom_text.dart';
 
 import '../../constants/controllers.dart';
 import '../../controllers/activity_controller.dart';

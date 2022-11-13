@@ -1,8 +1,8 @@
 
 class ApiPath {
 
-  static const String basePath = "http://202.151.162.220:8088/api/";
-  // static const String basePath = "http://localhost:8088/api/";
+  // static const String basePath = "http://202.151.162.220:8088/api/";
+  static const String basePath = "http://localhost:8088/api/";
 
 
   static const String loginPath = "${basePath}auth/";

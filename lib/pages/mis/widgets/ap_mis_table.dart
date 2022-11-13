@@ -1,17 +1,16 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:vnmo_mis/controllers/mis_controller.dart';
 
 import '../../../constants/style.dart';
 import '../../../controllers/transaction_controller.dart';
 import '../../../widgets/custom_text.dart';
 
-class DriversTable extends StatelessWidget {
-  DriversTable({super.key});
+class ApMisTable extends StatelessWidget {
+  ApMisTable();
 
-  final TransactionController counterController =
-      Get.put(TransactionController());
+  final MisController misController = Get.put(MisController());
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,7 @@ class DriversTable extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(16),
       child: Obx(
-        () => counterController.isLoading.value == true
+        () => misController.isLoading.value == true
             ? const Center(
                 child: CircularProgressIndicator(),
               )
@@ -79,7 +78,7 @@ class DriversTable extends StatelessWidget {
                     label: Text('D3'),
                   ),
                 ],
-                rows: counterController.statusResponseDisplay.isEmpty
+                rows: misController.misDataResponseDisplay.isEmpty
                     ? [
                         const DataRow(
                           cells: [
@@ -129,50 +128,50 @@ class DriversTable extends StatelessWidget {
                         ),
                       ]
                     : [
-                        ...counterController.statusResponseDisplay.map(
+                        ...misController.misDataResponseDisplay.map(
                           (element) => DataRow(
                             cells: [
                               DataCell(CustomText(
-                                text: element.name,
+                                text: element.indicatorCode.toString(),
                               )),
                               DataCell(CustomText(
-                                text: element.phoneNumber,
+                                text: element.year.toString(),
                               )),
                               DataCell(CustomText(
-                                text: element.shiftName,
+                                text: element.month.toString(),
                               )),
                               DataCell(CustomText(
-                                text: element.activityName,
+                                text: element.target.toString(),
                               )),
                               DataCell(CustomText(
-                                text: element.shiftName,
+                                text: element.actualAchieve.toString(),
                               )),
                               DataCell(CustomText(
-                                text: element.shiftName,
+                                text: element.boyNumber.toString(),
                               )),
                               DataCell(CustomText(
-                                text: element.shiftName,
+                                text: element.girlNumber.toString(),
                               )),
                               DataCell(CustomText(
-                                text: element.shiftName,
+                                text: element.maleNumber.toString(),
                               )),
                               DataCell(CustomText(
-                                text: element.shiftName,
+                                text: element.femaleNumber.toString(),
                               )),
                               DataCell(CustomText(
-                                text: element.shiftName,
+                                text: element.mvc.toString(),
                               )),
                               DataCell(CustomText(
-                                text: element.shiftName,
+                                text: element.rc.toString(),
                               )),
                               DataCell(CustomText(
-                                text: element.shiftName,
+                                text: element.d1.toString(),
                               )),
                               DataCell(CustomText(
-                                text: element.shiftName,
+                                text: element.d2.toString(),
                               )),
                               DataCell(CustomText(
-                                text: element.shiftName,
+                                text: element.d3.toString(),
                               )),
                             ],
                           ),

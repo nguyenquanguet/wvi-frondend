@@ -1,7 +1,7 @@
-import 'package:vnmo_mis/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vnmo_mis/widgets/custom_text.dart';
 
 import '../../constants/style.dart';
 import '../../controllers/authentication_controller.dart';
@@ -17,14 +17,12 @@ class AuthenticationPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Obx(
-
         () => authController.isLoading.value == true
             ? const Center(
                 child: CircularProgressIndicator(),
               )
             : Center(
                 child: Container(
-
                   constraints: const BoxConstraints(maxWidth: 400),
                   padding: const EdgeInsets.all(24),
                   child: Column(
@@ -34,8 +32,8 @@ class AuthenticationPage extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(right: 12),
-
-                            child: Image.asset("assets/icons/logo.png", height: 50, width: 150),
+                            child: Image.asset("assets/icons/logo.png",
+                                height: 50, width: 150),
                           ),
                           Expanded(child: Container()),
                         ],
@@ -56,7 +54,7 @@ class AuthenticationPage extends StatelessWidget {
                       Row(
                         children: [
                           CustomText(
-                            text: "World Vison VNMO MIS.",
+                            text: "World Vision VNMO MIS.",
                             color: lightGrey,
                           ),
                         ],
@@ -89,7 +87,7 @@ class AuthenticationPage extends StatelessWidget {
                           Row(
                             children: [
                               Checkbox(value: true, onChanged: (value) {}),
-                              const CustomText(text: "Remeber Me"),
+                              const CustomText(text: "Remember Me"),
                             ],
                           ),
                           //CustomText(text: "Forgot password?", color: active)
@@ -98,7 +96,7 @@ class AuthenticationPage extends StatelessWidget {
                       const SizedBox(height: 15),
                       InkWell(
                         onTap: () {
-                          // route in adress bar
+                          // route in address bar
                           //Get.offAllNamed(rootRoute);
                           //
                           authController.getLoginAdmin();

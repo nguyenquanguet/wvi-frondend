@@ -39,6 +39,8 @@ class AuthenticationController extends GetxController {
       await prefs.setString(ConstantName().username, loginResponse.data?.username ?? '');
       await prefs.setInt(ConstantName().apId, loginResponse.data?.userApId ?? 0);
       await prefs.setString(ConstantName().apName, loginResponse.data?.userApName ?? '');
+      await prefs.setInt(ConstantName().year, loginResponse.data?.year ?? 1990);
+      await prefs.setInt(ConstantName().inputTarget, loginResponse.data?.inputTarget ?? 0);
 
     } else if(loginResponse.result == 0){
       const SnackBars().snackBarFail(loginResponse.message.toString(), "");

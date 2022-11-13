@@ -232,7 +232,8 @@ class _TargetData extends State<TargetData> {
                                 items: indicatorList.map((DataIndicator value) {
                                   return DropdownMenuItem<String>(
                                     value: value.code,
-                                    child: Text("${value.code}: ${value.description}"),
+                                    child: Text(
+                                        "${value.code}: ${value.description}"),
                                   );
                                 }).toList(),
                               ),
@@ -264,8 +265,7 @@ class _TargetData extends State<TargetData> {
                                   }
                                   return null;
                                 },
-                                hint:
-                                    const Text('Please select month'),
+                                hint: const Text('Please select month'),
                                 value: _selectMonth,
                                 isDense: true,
                                 onChanged: (String? newValue) {
@@ -579,7 +579,7 @@ class _TargetData extends State<TargetData> {
                         child: TextFormField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
+                              return 'Please enter some number';
                             }
                             return null;
                           },
