@@ -1,33 +1,23 @@
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vnmo_mis/model/ap_indicator.dart';
 import 'package:vnmo_mis/model/indicator.dart';
+import 'package:vnmo_mis/model/mis_data.dart';
 import 'package:vnmo_mis/model/tp.dart';
 
 import '../service/mis_service.dart';
-import '../service/transaction_service.dart';
 
 class MisController extends GetxController {
-
   final MisService _misService = MisService();
 
-  var statusResponseDisplay = [].obs;
+  var misDataResponseDisplay = [].obs;
   var isLoading = true.obs;
 
   late ApMis apIndicator;
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
 
   @override
-  void dispose() {
-    Get.delete<TransactionService>();
-    super.dispose();
-  }
-
-  void getUsername() async {
-    final prefs = await SharedPreferences.getInstance();
+  void onInit() {
+    getTransaction();
+    super.onInit();
   }
 
   void getIndicatorList(int? tpId) async {
@@ -38,15 +28,26 @@ class MisController extends GetxController {
     });
   }
 
-  void getApMisDataList() async{
+  void getApMisDataList() async {
     ApMis apIndicator = await _misService.getMisByDateRange();
     Future.delayed(const Duration(milliseconds: 500), () {
       isLoading.value = false;
     });
   }
 
-  void getApTpList() async{
+  void getApTpList() async {
     Tp tpApList = await _misService.getLisTp();
+    Future.delayed(const Duration(milliseconds: 500), () {
+      isLoading.value = false;
+    });
+  }
+
+  void getTransaction() async {
+    misDataResponseDisplay.value = [];
+    isLoading.value = true;
+    List<MisDataIndicator>? misDataResponse = await _misService.getMisData();
+
+    misDataResponseDisplay.value = misDataResponse ??= [];
     Future.delayed(const Duration(milliseconds: 500), () {
       isLoading.value = false;
     });

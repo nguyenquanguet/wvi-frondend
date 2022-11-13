@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vnmo_mis/model/ap_indicator.dart';
 import 'package:vnmo_mis/model/indicator.dart';
+import 'package:vnmo_mis/model/mis_data.dart';
 import 'package:vnmo_mis/model/tp.dart';
 import 'package:vnmo_mis/service/storage/constant_name.dart';
 
@@ -69,7 +70,6 @@ class MisService {
   }
 
   Future createData(dynamic jsons) async {
-    print(jsons);
     final response = await post(
       Uri.parse(ApiPath.createData),
       headers: <String, String>{
@@ -82,7 +82,27 @@ class MisService {
     if (response.statusCode == 200) {
       return 200;
     } else {
-      return 400;
+      throw Exception(serverError);
+    }
+  }
+
+  Future getMisData() async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    int? apId = pref.getInt(ConstantName().apId);
+    final response = await get(
+      Uri.parse("${ApiPath.apMisPath}$apId"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept-Language': "en",
+      },
+    ).catchError((onError) {
+      const SnackBars().snackBarFail(serverError, "get mis data");
+    });
+    if (response.statusCode == 200) {
+      MisData misData = MisData.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      return misData.data;
+    } else {
+      throw Exception(serverError);
     }
   }
 }

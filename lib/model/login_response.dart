@@ -31,9 +31,17 @@ class Data {
   String? email;
   int? userApId;
   String? userApName;
+  int? inputTarget;
+  int? year;
 
   Data(
-      {this.userId, this.username, this.email, this.userApId, this.userApName});
+      {this.userId,
+        this.username,
+        this.email,
+        this.userApId,
+        this.userApName,
+        this.inputTarget,
+        this.year});
 
   Data.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
@@ -41,6 +49,8 @@ class Data {
     email = json['email'];
     userApId = json['userApId'];
     userApName = json['userApName'];
+    inputTarget = json['inputTarget'];
+    year = json['year'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,6 +60,8 @@ class Data {
     data['email'] = email;
     data['userApId'] = userApId;
     data['userApName'] = userApName;
+    data['inputTarget'] = inputTarget;
+    data['year'] = year;
     return data;
   }
 }

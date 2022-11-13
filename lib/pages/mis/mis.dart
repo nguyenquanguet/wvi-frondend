@@ -12,7 +12,6 @@ import '../../service/storage/constant_name.dart';
 import 'widgets/ap_mis_table.dart';
 
 class MisPage extends StatelessWidget {
-
   final MisController misController = Get.put(MisController());
   final year = TextEditingController();
 
@@ -20,8 +19,8 @@ class MisPage extends StatelessWidget {
 
   MisPage({super.key});
 
-  int? getYear (String year){
-    switch(year){
+  int? getYear(String year) {
+    switch (year) {
       case "FY22":
         return 2022;
       case "FY23":
@@ -29,10 +28,58 @@ class MisPage extends StatelessWidget {
     }
   }
 
+  List<String> month = [
+    "October",
+    "November",
+    "December",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September"
+  ];
+
+  int? getMonth(var month) {
+    switch (month) {
+      case "October":
+        return 10;
+      case "November":
+        return 11;
+      case "December":
+        return 12;
+      case "January":
+        return 1;
+      case "February":
+        return 2;
+      case "March":
+        return 3;
+      case "April":
+        return 4;
+      case "May":
+        return 5;
+      case "June":
+        return 6;
+      case "July":
+        return 7;
+      case "August":
+        return 8;
+      case "September":
+        return 9;
+      default:
+        return 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final TransactionController counterController =
         Get.put(TransactionController());
+    final MisController misController =
+    Get.put(MisController());
     return Column(
       children: [
         Obx(() => Row(
@@ -54,30 +101,32 @@ class MisPage extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(8.0),
-              width: ResponsiveWidget.isSmallScreen(context) ? 160 : 180,
+              width: ResponsiveWidget.isSmallScreen(context) ? 160 : 200,
               height: 100,
               alignment: Alignment.center,
               child: FormField<String>(
                 builder: (FormFieldState<String> state) {
                   return InputDecorator(
                     decoration: const InputDecoration(
-                        labelText: 'Select FY',
-                        errorStyle: TextStyle(
-                            color: Colors.orange, fontSize: 10.0),
-                        hintText: 'Please select FY',),
+                      labelText: 'Select Month',
+                      errorStyle:
+                          TextStyle(color: Colors.orange, fontSize: 10.0),
+                      hintText: 'Please select Month',
+                    ),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButtonFormField<String>(
                         validator: (value) {
-                          return 'Please enter FY';
+                          return 'Please enter Month';
                         },
-                        hint: const Text('Please select FY'),
+                        hint: const Text('Please select Month'),
                         isDense: true,
                         onChanged: (String? newValue) async {
-                          SharedPreferences pref = await SharedPreferences.getInstance();
-                          int? inputYear = getYear(newValue.toString());
-                          pref.setInt(ConstantName().year, inputYear!);
+                          SharedPreferences pref =
+                              await SharedPreferences.getInstance();
+                          int? inputMonth = getMonth(newValue.toString());
+                          pref.setInt(ConstantName().month, inputMonth!);
                         },
-                        items: listYear.map((String value) {
+                        items: month.map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value),
@@ -91,7 +140,8 @@ class MisPage extends StatelessWidget {
             ),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(ResponsiveWidget.isSmallScreen(context) ? 160 : 180, 80),
+                  minimumSize: Size(
+                      ResponsiveWidget.isSmallScreen(context) ? 160 : 200, 80),
                   backgroundColor: Colors.orange,
                 ),
                 onPressed: () {
@@ -107,9 +157,8 @@ class MisPage extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 30),
-
         Expanded(
-          child: DriversTable(),
+          child: ApMisTable(),
         ),
       ],
     );
