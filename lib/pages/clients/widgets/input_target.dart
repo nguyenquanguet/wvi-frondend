@@ -12,29 +12,19 @@ import 'package:vnmo_mis/service/storage/constant_name.dart';
 import '../../../constants/condition_size.dart';
 import '../../../helpers/responsiveness.dart';
 
-class InputMISData extends StatefulWidget {
-  const InputMISData({Key? key}) : super(key: key);
+class InputTarget extends StatefulWidget {
+  const InputTarget({Key? key}) : super(key: key);
 
   @override
   _TargetData createState() => _TargetData();
 }
 
-class _TargetData extends State<InputMISData> {
+class _TargetData extends State<InputTarget> {
   final MisService _misService = MisService();
 
   final MisController counterController = Get.put(MisController());
 
   final targetNumber = TextEditingController();
-  final actualAchieve = TextEditingController();
-  final boyNumber = TextEditingController();
-  final girlNumber = TextEditingController();
-  final maleNumber = TextEditingController();
-  final femaleNumber = TextEditingController();
-  final mvc = TextEditingController();
-  final rc = TextEditingController();
-  final d1 = TextEditingController();
-  final d2 = TextEditingController();
-  final d3 = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -69,10 +59,6 @@ class _TargetData extends State<InputMISData> {
     });
   }
 
-  void getVisitable(){
-
-  }
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -87,7 +73,7 @@ class _TargetData extends State<InputMISData> {
         top: 10.0,
       ),
       title: const Text(
-        "Input MIS Data",
+        "Input Target MIS",
         style: TextStyle(fontSize: 24.0),
       ),
       content: isLoading == true
@@ -202,6 +188,7 @@ class _TargetData extends State<InputMISData> {
                       Container(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
+                          enabled: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter some text';
@@ -214,279 +201,18 @@ class _TargetData extends State<InputMISData> {
                           onChanged: (value) {
                             try {
                               if (value == "") {
-                                actualAchieve.text = "0";
+                                targetNumber.text = "0";
                                 return;
                               }
                             } catch (e) {
-                              actualAchieve.text = "0";
+                              targetNumber.text = "0";
                             }
                           },
-                          controller: actualAchieve,
+                          controller: targetNumber,
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: 'Enter Actual Achieve',
-                              labelText: 'Actual Achieve'),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          ],
-                          onChanged: (value) {
-                            try {
-                              if (value == "") {
-                                boyNumber.text = "0";
-                                return;
-                              }
-                            } catch (e) {
-                              boyNumber.text = "0";
-                            }
-                          },
-                          controller: boyNumber,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter Boy Number',
-                              labelText: 'Boy Number'),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          ],
-                          onChanged: (value) {
-                            try {
-                              if (value == "") {
-                                girlNumber.text = "0";
-                                return;
-                              }
-                            } catch (e) {
-                              girlNumber.text = "0";
-                            }
-                          },
-                          controller: girlNumber,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter Girl Number',
-                              labelText: 'Girl Number'),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          ],
-                          onChanged: (value) {
-                            try {
-                              if (value == "") {
-                                maleNumber.text = "0";
-                                return;
-                              }
-                            } catch (e) {
-                              maleNumber.text = "0";
-                            }
-                          },
-                          controller: maleNumber,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter Male Number',
-                              labelText: 'Male Number'),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          ],
-                          onChanged: (value) {
-                            try {
-                              if (value == "") {
-                                femaleNumber.text = "0";
-                                return;
-                              }
-                            } catch (e) {
-                              femaleNumber.text = "0";
-                            }
-                          },
-                          controller: femaleNumber,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter Female Number',
-                              labelText: 'Female Number'),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          ],
-                          onChanged: (value) {
-                            try {
-                              if (value == "") {
-                                mvc.text = "0";
-                                return;
-                              }
-                            } catch (e) {
-                              mvc.text = "0";
-                            }
-                          },
-                          controller: mvc,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter MVC Number',
-                              labelText: 'MVC Number'),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          ],
-                          onChanged: (value) {
-                            try {
-                              if (value == "") {
-                                rc.text = "0";
-                                return;
-                              }
-                            } catch (e) {
-                              rc.text = "0";
-                            }
-                          },
-                          controller: rc,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter RC Number',
-                              labelText: 'RC Number'),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          ],
-                          onChanged: (value) {
-                            try {
-                              if (value == "") {
-                                d1.text = "0";
-                                return;
-                              }
-                            } catch (e) {
-                              d1.text = "0";
-                            }
-                          },
-                          controller: d1,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter D1 Number',
-                              labelText: 'D1 Number'),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          ],
-                          onChanged: (value) {
-                            try {
-                              if (value == "") {
-                                d2.text = "0";
-                                return;
-                              }
-                            } catch (e) {
-                              d2.text = "0";
-                            }
-                          },
-                          controller: d2,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter D2 Number',
-                              labelText: 'D2 Number'),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some number';
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          ],
-                          onChanged: (value) {
-                            try {
-                              if (value == "") {
-                                d3.text = "0";
-                                return;
-                              }
-                            } catch (e) {
-                              d3.text = "0";
-                            }
-                          },
-                          controller: d3,
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: 'Enter D3 Number',
-                              labelText: 'D3 Number'),
+                              hintText: 'Enter Target Indicator',
+                              labelText: 'Target for month'),
                         ),
                       ),
                       Row(
@@ -540,19 +266,9 @@ class _TargetData extends State<InputMISData> {
                                         "target": targetNumber.text,
                                         "month":
                                             prefs.getInt(ConstantName().month),
-                                        "actualAchieve": actualAchieve.text,
-                                        "boyNumber": boyNumber.text,
-                                        "girlNumber": girlNumber.text,
-                                        "maleNumber": maleNumber.text,
-                                        "femaleNumber": femaleNumber.text,
-                                        "mvc": mvc.text,
-                                        "rc": rc.text,
-                                        "d1": d1.text,
-                                        "d2": d2.text,
-                                        "d3": d3.text
                                       };
                                       int status =
-                                          await _misService.createData(jsons);
+                                          await _misService.createTarget(jsons);
                                       if (status == 200) {
                                         AwesomeDialog(
                                           width: checkConditionWidth(context),

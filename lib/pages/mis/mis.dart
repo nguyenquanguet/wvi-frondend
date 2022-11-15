@@ -1,8 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vnmo_mis/controllers/mis_controller.dart';
 import 'package:vnmo_mis/pages/clients/widgets/input_mis_data.dart';
+import 'package:vnmo_mis/pages/clients/widgets/input_target.dart';
 import 'package:vnmo_mis/widgets/custom_text.dart';
 
 import '../../constants/controllers.dart';
@@ -12,10 +15,17 @@ import '../../service/storage/constant_name.dart';
 import 'widgets/ap_mis_table.dart';
 
 class MisPage extends StatelessWidget {
+
   final MisController misController = Get.put(MisController());
   final year = TextEditingController();
 
   final List<String> listYear = ["FY22", "FY23"];
+
+  bool _isVisitable = false;
+
+  int? nowYear;
+
+  bool isLoading = true;
 
   MisPage({super.key});
 
@@ -26,7 +36,23 @@ class MisPage extends StatelessWidget {
       case "FY23":
         return 2023;
     }
+    return null;
   }
+
+  void getNowYear() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    nowYear = pref.getInt(ConstantName().year);
+
+    if(pref.getInt(ConstantName().inputTarget) == 1) {
+      _isVisitable = false;
+    }
+    _isVisitable = true;
+
+    Future.delayed(const Duration(milliseconds: 500), () {
+      isLoading = false;
+    });
+  }
+
 
   List<String> month = [
     "October",
@@ -78,9 +104,10 @@ class MisPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final TransactionController counterController =
         Get.put(TransactionController());
-    final MisController misController =
-    Get.put(MisController());
+    final MisController misController = Get.put(MisController());
+    getNowYear();
     return Column(
+
       children: [
         Obx(() => Row(
               children: [
@@ -88,8 +115,9 @@ class MisPage extends StatelessWidget {
                   margin: EdgeInsets.only(
                       top: ResponsiveWidget.isSmallScreen(context) ? 100 : 20),
                   child: CustomText(
+
                     text:
-                        "${menuController.activeItem.value} VNMO Data of AP: ${counterController.getApName()}",
+                        "${menuController.activeItem.value} DATA AP: ${counterController.getApName()} of Year $nowYear",
                     size: ResponsiveWidget.isSmallScreen(context) ? 16 : 24,
                     weight: FontWeight.bold,
                   ),
@@ -138,22 +166,43 @@ class MisPage extends StatelessWidget {
                 },
               ),
             ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(
-                      ResponsiveWidget.isSmallScreen(context) ? 160 : 200, 80),
-                  backgroundColor: Colors.orange,
-                ),
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (_) {
-                        return const TargetData();
-                      }).then((value) {
-                    misController.onInit();
-                  });
-                },
-                child: const Text("Input Data")),
+            Visibility(
+              visible: _isVisitable,
+              replacement: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(
+                        ResponsiveWidget.isSmallScreen(context) ? 160 : 200,
+                        80),
+                    backgroundColor: Colors.orange,
+                  ),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return const InputTarget();
+                        }).then((value) {
+                      misController.onInit();
+                    });
+                  },
+                  child: const Text("Input Target")),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(
+                        ResponsiveWidget.isSmallScreen(context) ? 160 : 200,
+                        80),
+                    backgroundColor: Colors.orange,
+                  ),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return const InputMISData();
+                        }).then((value) {
+                      misController.onInit();
+                    });
+                  },
+                  child: const Text("Input Data")),
+            ),
           ],
         ),
         const SizedBox(height: 30),

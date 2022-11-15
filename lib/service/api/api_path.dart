@@ -1,9 +1,8 @@
 
 class ApiPath {
 
-  static const String basePath = "http://202.151.162.220:8088/api/";
-  // static const String basePath = "http://10.0.2.2:8088/api/";
-
+  // static const String basePath = "http://202.151.162.220:8088/api/";
+  static const String basePath = "http://localhost:8088/api/";
 
   static const String loginPath = "${basePath}auth/";
 
@@ -14,5 +13,7 @@ class ApiPath {
   static const String tpList = "${basePath}mis/find-all-tp/";
 
   static const String createData = "${basePath}mis/create-data";
+
+  static const String createTarget = "${basePath}mis/create-target";
 
 }

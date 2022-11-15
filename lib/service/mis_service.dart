@@ -86,6 +86,25 @@ class MisService {
     }
   }
 
+  Future createTarget(dynamic jsons) async {
+    final response = await post(
+      Uri.parse(ApiPath.createTarget),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode(jsons),
+    ).catchError((onError) {
+      const SnackBars().snackBarFail("Error", "");
+    });
+    if (response.statusCode == 200) {
+      return 200;
+    } else {
+      throw Exception(serverError);
+    }
+  }
+
+
+
   Future getMisData() async{
     SharedPreferences pref = await SharedPreferences.getInstance();
     int? apId = pref.getInt(ConstantName().apId);

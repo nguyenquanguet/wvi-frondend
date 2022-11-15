@@ -90,15 +90,11 @@ class AuthenticationPage extends StatelessWidget {
                               const CustomText(text: "Remember Me"),
                             ],
                           ),
-                          //CustomText(text: "Forgot password?", color: active)
                         ],
                       ),
                       const SizedBox(height: 15),
                       InkWell(
                         onTap: () {
-                          // route in address bar
-                          //Get.offAllNamed(rootRoute);
-                          //
                           authController.getLoginAdmin();
                         },
                         child: Container(
@@ -115,13 +111,6 @@ class AuthenticationPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 15),
-                      // RichText(
-                      //     text: TextSpan(children: [
-                      //   const TextSpan(text: "Do not have admin credentials? "),
-                      //   TextSpan(
-                      //       text: "Request Credentials! ",
-                      //       style: TextStyle(color: active))
-                      // ]))
                     ],
                   ),
                 ),

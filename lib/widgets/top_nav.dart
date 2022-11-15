@@ -1,20 +1,15 @@
-import 'package:vnmo_mis/helpers/responsiveness.dart';
 import 'package:flutter/material.dart';
 
-import '../constants/style.dart';
-import 'custom_text.dart';
+import '../helpers/responsiveness.dart';
 
-AppBar topNaigatorBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
+AppBar topNavigatorBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
     AppBar(
       leading: !ResponsiveWidget.isSmallScreen(context)
-          ? Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Image.asset("assets/icons/logo.png", width: 45, height: 15,),
-                )
-              ],
-            )
+          ? Expanded(
+              child: Container(
+              padding: const EdgeInsets.fromLTRB(50, 10, 5, 5),
+              child: Image.asset("assets/icons/logo.png"),
+            ))
           : IconButton(
               onPressed: () {
                 key.currentState?.openDrawer();
@@ -23,76 +18,6 @@ AppBar topNaigatorBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
               color: Colors.black,
             ),
       elevation: 0,
-      title: Container(
-        child: Row(
-          children: [
-            Expanded(child: Container()),
-            // IconButton(
-            //     icon: Icon(
-            //       Icons.settings,
-            //       color: dark,
-            //     ),
-            //     onPressed: () {}),
-            // Stack(
-            //   children: [
-            //     IconButton(
-            //         icon: Icon(
-            //           Icons.notifications,
-            //           color: dark.withOpacity(.7),
-            //         ),
-            //         onPressed: () {}),
-            //     Positioned(
-            //       top: 7,
-            //       right: 7,
-            //       child: Container(
-            //         width: 12,
-            //         height: 12,
-            //         padding: const EdgeInsets.all(4),
-            //         decoration: BoxDecoration(
-            //             color: active,
-            //             borderRadius: BorderRadius.circular(30),
-            //             border: Border.all(color: light, width: 2)),
-            //       ),
-            //     )
-            //   ],
-            // ),
-            // Container(
-            //   width: 1,
-            //   height: 22,
-            //   color: lightGrey,
-            // ),
-            const SizedBox(
-              width: 160,
-            ),
-            // CustomText(
-            //   text: 'Admin',
-            //   color: lightGrey,
-            // ),
-            const SizedBox(
-              width: 160,
-            ),
-            // Container(
-            //   decoration: BoxDecoration(
-            //       color: active.withOpacity(.5),
-            //       borderRadius: BorderRadius.circular(30)),
-            //   child: Container(
-            //     decoration: BoxDecoration(
-            //         color: Colors.white,
-            //         borderRadius: BorderRadius.circular(30)),
-            //     padding: EdgeInsets.all(2),
-            //     margin: EdgeInsets.all(2),
-            //     child: CircleAvatar(
-            //       backgroundColor: light,
-            //       child: Icon(
-            //         Icons.person_outline,
-            //         color: dark,
-            //       ),
-            //     ),
-            //   ),
-            // )
-          ],
-        ),
-      ),
-      iconTheme: IconThemeData(color: dark),
+      leadingWidth: 180,
       backgroundColor: Colors.transparent,
     );

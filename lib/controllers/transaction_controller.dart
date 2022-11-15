@@ -51,6 +51,9 @@ class TransactionController extends GetxController {
   void getApNameFromStorage() async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
     apName = preferences.getString(ConstantName().apName).toString();
+    Future.delayed(const Duration(milliseconds: 500), () {
+      isLoading.value = false;
+    });
   }
 
   void getTransactionToday() async {
