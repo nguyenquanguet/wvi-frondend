@@ -1,6 +1,6 @@
-import 'package:vnmo_mis/pages/authentication/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vnmo_mis/pages/authentication/authentication.dart';
 
 import '../constants/controllers.dart';
 import '../constants/style.dart';
@@ -15,7 +15,6 @@ class SideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-
     return Container(
       color: light,
       child: ListView(
@@ -32,7 +31,11 @@ class SideMenu extends StatelessWidget {
                     SizedBox(width: width / 48),
                     Padding(
                       padding: const EdgeInsets.only(right: 12),
-                      child: Image.asset("assets/icons/logo.png", width: 50, height: 30,),
+                      child: Image.asset(
+                        "assets/icons/logo.png",
+                        width: 50,
+                        height: 30,
+                      ),
                     ),
                     Flexible(
                       child: CustomText(
@@ -53,9 +56,6 @@ class SideMenu extends StatelessWidget {
           Divider(
             color: lightGrey.withOpacity(.1),
           ),
-
-// TODO: Remove
-
           Column(
             mainAxisSize: MainAxisSize.min,
             children: sideMenuItems
@@ -65,8 +65,7 @@ class SideMenu extends StatelessWidget {
                       if (item.route == authenticationPageRoute) {
                         Get.offAllNamed(authenticationPageRoute);
                         Get.offAll(() => AuthenticationPage());
-                        menuController
-                            .changeActiveItemTo(misPageDisplayName);
+                        menuController.changeActiveItemTo(misPageDisplayName);
                       }
 
                       if (!menuController.isActive(item.name)) {
@@ -77,27 +76,6 @@ class SideMenu extends StatelessWidget {
                     }))
                 .toList(),
           )
-
-          // TODO:
-          /* Column(
-            mainAxisSize: MainAxisSize.min,
-            children: sideMenuItemRoutes
-                .map((item) => SideMenuItem(
-                    itemName: item.name,
-                    onTap: () {
-                      if (item.route == authenticationPageRoute) {
-                        Get.offAllNamed(authenticationPageRoute);
-                        menuController
-                            .changeActiveItemTo(overviewPageDisplayName);
-                      }
-                      if (!menuController.isActive(item.name)) {
-                        menuController.changeActiveItemTo(item.name);
-                        if (ResponsiveWidget.isSmallScreen(context)) Get.back();
-                        // navigationController.navigateTo(item.route);
-                      }
-                    }))
-                .toList(),
-          ) */
         ],
       ),
     );

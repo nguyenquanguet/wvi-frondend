@@ -34,6 +34,7 @@ class AuthenticationController extends GetxController {
 
     if (loginResponse.result == 1) {
       Get.offAll(() => SiteLayout());
+
       //storage data
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString(ConstantName().username, loginResponse.data?.username ?? '');
