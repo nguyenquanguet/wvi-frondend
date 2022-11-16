@@ -212,12 +212,14 @@ class _TargetData extends State<InputTarget> {
                             try {
                               if (value == "") {
                                 targetNumber.text = "0";
+                                selectTargetNumber = 0;
                                 return;
                               }
                             } catch (e) {
                               targetNumber.text = "0";
+                              selectTargetNumber = 0;
                             }
-                            selectTargetNumber = int.parse(value);
+                            selectTargetNumber = int.parse(value.toString());
                           },
                           controller: targetNumber,
                           decoration: const InputDecoration(
