@@ -15,31 +15,14 @@ import '../../service/storage/constant_name.dart';
 import 'widgets/ap_mis_table.dart';
 
 class MisPage extends StatelessWidget {
-
+  MisPage({super.key});
   final MisController misController = Get.put(MisController());
   final year = TextEditingController();
-
-  final List<String> listYear = ["FY22", "FY23"];
-
   bool _isVisitable = false;
-
   int? nowYear;
-
   bool isLoading = true;
 
-  MisPage({super.key});
-
-  int? getYear(String year) {
-    switch (year) {
-      case "FY22":
-        return 2022;
-      case "FY23":
-        return 2023;
-    }
-    return null;
-  }
-
-  void getNowYear() async {
+  void getUtil() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     nowYear = pref.getInt(ConstantName().year);
 
@@ -105,9 +88,8 @@ class MisPage extends StatelessWidget {
     final TransactionController counterController =
         Get.put(TransactionController());
     final MisController misController = Get.put(MisController());
-    getNowYear();
+    getUtil();
     return Column(
-
       children: [
         Obx(() => Row(
               children: [
@@ -115,7 +97,6 @@ class MisPage extends StatelessWidget {
                   margin: EdgeInsets.only(
                       top: ResponsiveWidget.isSmallScreen(context) ? 100 : 20),
                   child: CustomText(
-
                     text:
                         "${menuController.activeItem.value} DATA AP: ${counterController.getApName()} of Year $nowYear",
                     size: ResponsiveWidget.isSmallScreen(context) ? 16 : 24,
@@ -167,7 +148,7 @@ class MisPage extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: _isVisitable,
+              visible: false,
               replacement: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(

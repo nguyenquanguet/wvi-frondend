@@ -24,17 +24,17 @@ class _TargetData extends State<InputMISData> {
 
   final MisController counterController = Get.put(MisController());
 
-  final targetNumber = TextEditingController();
-  final actualAchieve = TextEditingController();
-  final boyNumber = TextEditingController();
-  final girlNumber = TextEditingController();
-  final maleNumber = TextEditingController();
-  final femaleNumber = TextEditingController();
-  final mvc = TextEditingController();
-  final rc = TextEditingController();
-  final d1 = TextEditingController();
-  final d2 = TextEditingController();
-  final d3 = TextEditingController();
+  final targetNumber = TextEditingController()..text = "0";
+  final actualAchieve = TextEditingController()..text = "0";
+  final boyNumber = TextEditingController()..text = "0";
+  final girlNumber = TextEditingController()..text = "0";
+  final maleNumber = TextEditingController()..text = "0";
+  final femaleNumber = TextEditingController()..text = "0";
+  final mvc = TextEditingController()..text = "0";
+  final rc = TextEditingController()..text = "0";
+  final d1 = TextEditingController()..text = "0";
+  final d2 = TextEditingController()..text = "0";
+  final d3 = TextEditingController()..text = "0";
 
   final _formKey = GlobalKey<FormState>();
 
