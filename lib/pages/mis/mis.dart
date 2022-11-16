@@ -16,26 +16,11 @@ import 'widgets/ap_mis_table.dart';
 
 class MisPage extends StatelessWidget {
   MisPage({super.key});
+
   final MisController misController = Get.put(MisController());
   final year = TextEditingController();
-  bool _isVisitable = false;
   int? nowYear;
   bool isLoading = true;
-
-  void getUtil() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    nowYear = pref.getInt(ConstantName().year);
-
-    if(pref.getInt(ConstantName().inputTarget) == 1) {
-      _isVisitable = false;
-    }
-    _isVisitable = true;
-
-    Future.delayed(const Duration(milliseconds: 500), () {
-      isLoading = false;
-    });
-  }
-
 
   List<String> month = [
     "October",
@@ -88,7 +73,6 @@ class MisPage extends StatelessWidget {
     final TransactionController counterController =
         Get.put(TransactionController());
     final MisController misController = Get.put(MisController());
-    getUtil();
     return Column(
       children: [
         Obx(() => Row(
@@ -124,9 +108,6 @@ class MisPage extends StatelessWidget {
                     ),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButtonFormField<String>(
-                        validator: (value) {
-                          return 'Please enter Month';
-                        },
                         hint: const Text('Please select Month'),
                         isDense: true,
                         onChanged: (String? newValue) async {
@@ -148,7 +129,7 @@ class MisPage extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: false,
+              visible: true,
               replacement: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(

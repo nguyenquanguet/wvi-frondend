@@ -18,16 +18,27 @@ class ReviewInputMisData extends StatefulWidget {
 }
 
 class _ReviewInputMisData extends State<ReviewInputMisData> {
+
   final MisService _misService = MisService();
 
   final MisController counterController = Get.put(MisController());
 
-  int? selectTargetNumber;
   String? selectApName;
   String? selectTpName;
   String? selectIndicatorCode;
   int? year;
   int? month;
+  int? selectActualAchieve;
+  int? selectBoyNumber;
+  int? selectGirlNumber;
+  int? selectMaleNumber;
+  int? selectFemaleNumber;
+  int? selectMvcNumber;
+  int? selectRcNumber;
+  int? selectD1Number;
+  int? selectD2Number;
+  int? selectD3Number;
+  String? selectIndicatorDescription;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -45,9 +56,18 @@ class _ReviewInputMisData extends State<ReviewInputMisData> {
     month = pref.getInt(ConstantName().month);
     selectTpName = pref.getString(ConstantName().selectTpName)!;
     selectIndicatorCode = pref.getString(ConstantName().selectIndicatorCode)!;
-    selectTargetNumber = pref.getInt(ConstantName().selectTargetId)!;
     selectApName = pref.getString(ConstantName().apName);
-
+    selectBoyNumber = pref.getInt(ConstantName().selectBoyNumber)!;
+    selectGirlNumber = pref.getInt(ConstantName().selectGirlNumber)!;
+    selectMaleNumber = pref.getInt(ConstantName().selectMaleNumber)!;
+    selectFemaleNumber = pref.getInt(ConstantName().selectFemaleNumber)!;
+    selectMvcNumber = pref.getInt(ConstantName().selectMvcNumber)!;
+    selectRcNumber = pref.getInt(ConstantName().selectRcNumber)!;
+    selectD1Number = pref.getInt(ConstantName().selectD1Number)!;
+    selectD2Number = pref.getInt(ConstantName().selectD2Number)!;
+    selectD3Number = pref.getInt(ConstantName().selectD3Number)!;
+    selectActualAchieve = pref.getInt(ConstantName().selectActualAchieve);
+    selectIndicatorDescription = pref.getString(ConstantName().selectIndicatorDescription);
     Future.delayed(const Duration(milliseconds: 500), () {
       isLoading = false;
       setState(() {});
@@ -129,7 +149,7 @@ class _ReviewInputMisData extends State<ReviewInputMisData> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     enabled: false,
-                    initialValue: selectIndicatorCode,
+                    initialValue: "$selectIndicatorCode: $selectIndicatorDescription",
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'INDICATOR ID'),
@@ -139,11 +159,100 @@ class _ReviewInputMisData extends State<ReviewInputMisData> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
                     enabled: false,
-                    initialValue: selectTargetNumber.toString(),
+                    initialValue: selectActualAchieve.toString(),
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        hintText: 'Enter Target Indicator',
-                        labelText: 'TARGET'),
+                        labelText: 'ACTUAL ACHIEVED'),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue: selectBoyNumber.toString(),
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'BOY NUMBER'),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue: selectGirlNumber.toString(),
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'GIRL NUMBER'),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue: selectMaleNumber.toString(),
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'MALE NUMBER'),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue: selectFemaleNumber.toString(),
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'FEMALE NUMBER'),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue: selectMvcNumber.toString(),
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'MVC NUMBER'),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue: selectRcNumber.toString(),
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'RC NUMBER'),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue: selectD1Number.toString(),
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'D1 NUMBER'),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue: selectD2Number.toString(),
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'D2 NUMBER'),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    enabled: false,
+                    initialValue: selectD2Number.toString(),
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'D2 NUMBER'),
                   ),
                 ),
                 Row(
@@ -194,12 +303,21 @@ class _ReviewInputMisData extends State<ReviewInputMisData> {
                                   selectIndicatorCode.toString(),
                                   "year":
                                   prefs.getInt(ConstantName().year),
-                                  "target": selectTargetNumber,
                                   "month":
                                   prefs.getInt(ConstantName().month),
+                                  "actualAchieve": selectActualAchieve,
+                                  "boyNumber": selectBoyNumber,
+                                  "girlNumber": selectGirlNumber,
+                                  "maleNumber": selectMaleNumber,
+                                  "femaleNumber": selectFemaleNumber,
+                                  "mvc": selectMvcNumber,
+                                  "rc": selectRcNumber,
+                                  "d1": selectD1Number,
+                                  "d2": selectD2Number,
+                                  "d3": selectD3Number
                                 };
                                 int status =
-                                await _misService.createTarget(jsons);
+                                await _misService.createData(jsons);
                                 if (status == 200) {
                                   AwesomeDialog(
                                     width: checkConditionWidth(context),
