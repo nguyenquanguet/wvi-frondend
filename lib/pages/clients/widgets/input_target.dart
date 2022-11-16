@@ -1,4 +1,3 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -6,11 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vnmo_mis/controllers/mis_controller.dart';
 import 'package:vnmo_mis/model/indicator.dart';
 import 'package:vnmo_mis/model/tp.dart';
+import 'package:vnmo_mis/pages/clients/widgets/review_input_target.dart';
 import 'package:vnmo_mis/service/mis_service.dart';
-import 'package:vnmo_mis/service/storage/constant_name.dart';
 
-import '../../../constants/condition_size.dart';
 import '../../../helpers/responsiveness.dart';
+import '../../../service/storage/constant_name.dart';
 
 class InputTarget extends StatefulWidget {
   const InputTarget({Key? key}) : super(key: key);
@@ -24,7 +23,7 @@ class _TargetData extends State<InputTarget> {
 
   final MisController counterController = Get.put(MisController());
 
-  final targetNumber = TextEditingController();
+  final targetNumber = TextEditingController()..text = "0";
 
   final _formKey = GlobalKey<FormState>();
 
@@ -35,6 +34,8 @@ class _TargetData extends State<InputTarget> {
 
   var _selectTp;
   var _selectedIndicatorCode;
+  String? _selectTpName;
+  int? selectTargetNumber;
 
   @override
   void initState() {
@@ -49,6 +50,14 @@ class _TargetData extends State<InputTarget> {
       isLoading = false;
       setState(() {});
     });
+  }
+
+  void getTpName(int tpId) async{
+    for(int i = 0; i< listTp.length; i++){
+      if(tpId == listTp.elementAt(i).id){
+        _selectTpName = listTp.elementAt(i).name;
+      }
+    }
   }
 
   void getIndicatorList(int? tpId) async {
@@ -124,6 +133,7 @@ class _TargetData extends State<InputTarget> {
                                       _selectedIndicatorCode != null
                                           ? _selectedIndicatorCode = null
                                           : null;
+                                      getTpName(int.parse(newValue.toString()));
                                       getIndicatorList(
                                           int.parse(newValue.toString()));
                                     });
@@ -202,11 +212,14 @@ class _TargetData extends State<InputTarget> {
                             try {
                               if (value == "") {
                                 targetNumber.text = "0";
+                                selectTargetNumber = 0;
                                 return;
                               }
                             } catch (e) {
                               targetNumber.text = "0";
+                              selectTargetNumber = 0;
                             }
+                            selectTargetNumber = int.parse(value.toString());
                           },
                           controller: targetNumber,
                           decoration: const InputDecoration(
@@ -253,67 +266,16 @@ class _TargetData extends State<InputTarget> {
                                   onPressed: () async {
                                     SharedPreferences prefs =
                                         await SharedPreferences.getInstance();
-                                    if (_formKey.currentState!.validate()) {
-                                      var jsons = {
-                                        "username": prefs
-                                            .getString(ConstantName().username),
-                                        "apId":
-                                            prefs.getInt(ConstantName().apId),
-                                        "indicatorCode":
-                                            _selectedIndicatorCode.toString(),
-                                        "year":
-                                            prefs.getInt(ConstantName().year),
-                                        "target": targetNumber.text,
-                                        "month":
-                                            prefs.getInt(ConstantName().month),
-                                      };
-                                      int status =
-                                          await _misService.createTarget(jsons);
-                                      if (status == 200) {
-                                        AwesomeDialog(
-                                          width: checkConditionWidth(context),
-                                          bodyHeaderDistance: 60,
-                                          context: context,
-                                          animType: AnimType.SCALE,
-                                          dialogType: DialogType.SUCCES,
-                                          body: const Center(
-                                            child: Text(
-                                              'Insert Successfully.',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 16),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          title:
-                                              'Insert for ${prefs.getString(ConstantName().apName)}',
-                                          desc: '',
-                                          btnOkOnPress: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ).show();
-                                      } else {
-                                        AwesomeDialog(
-                                          width: checkConditionWidth(context),
-                                          bodyHeaderDistance: 60,
-                                          context: context,
-                                          animType: AnimType.SCALE,
-                                          dialogType: DialogType.ERROR,
-                                          body: const Center(
-                                            child: Text(
-                                              'Failed to create data please try again.',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 16),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          title: 'Failed',
-                                          desc: '',
-                                          btnOkOnPress: () {},
-                                        ).show();
-                                      }
-                                    }
+
+                                    prefs.setString(ConstantName().selectTpName, _selectTpName.toString());
+                                    prefs.setString(ConstantName().selectIndicatorCode, _selectedIndicatorCode);
+                                    prefs.setInt(ConstantName().selectTargetId, selectTargetNumber!);
+
+                                    showDialog(
+                                        context: context,
+                                        builder: (_) {
+                                          return const ReviewInputTarget();
+                                        });
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.black,

@@ -24,17 +24,16 @@ class _TargetData extends State<InputMISData> {
 
   final MisController counterController = Get.put(MisController());
 
-  final targetNumber = TextEditingController();
-  final actualAchieve = TextEditingController();
-  final boyNumber = TextEditingController();
-  final girlNumber = TextEditingController();
-  final maleNumber = TextEditingController();
-  final femaleNumber = TextEditingController();
-  final mvc = TextEditingController();
-  final rc = TextEditingController();
-  final d1 = TextEditingController();
-  final d2 = TextEditingController();
-  final d3 = TextEditingController();
+  final actualAchieve = TextEditingController()..text = "0";
+  final boyNumber = TextEditingController()..text = "0";
+  final girlNumber = TextEditingController()..text = "0";
+  final maleNumber = TextEditingController()..text = "0";
+  final femaleNumber = TextEditingController()..text = "0";
+  final mvc = TextEditingController()..text = "0";
+  final rc = TextEditingController()..text = "0";
+  final d1 = TextEditingController()..text = "0";
+  final d2 = TextEditingController()..text = "0";
+  final d3 = TextEditingController()..text = "0";
 
   final _formKey = GlobalKey<FormState>();
 
@@ -45,6 +44,17 @@ class _TargetData extends State<InputMISData> {
 
   var _selectTp;
   var _selectedIndicatorCode;
+
+  int? selectActualAchieve;
+  int? selectBoyNumber;
+  int? selectGirlNumber;
+  int? selectMaleNumber;
+  int? selectFemaleNumber;
+  int? selectMvcNumber;
+  int? selectRcNumber;
+  int? selectD1Number;
+  int? selectD2Number;
+  int? selectD3Number;
 
   @override
   void initState() {
@@ -112,7 +122,7 @@ class _TargetData extends State<InputMISData> {
                           builder: (FormFieldState<String> state) {
                             return InputDecorator(
                               decoration: InputDecoration(
-                                  labelText: 'Tp',
+                                  labelText: 'TP',
                                   errorStyle: const TextStyle(
                                       color: Colors.orange, fontSize: 16.0),
                                   hintText: 'Please select Tp',
@@ -125,11 +135,11 @@ class _TargetData extends State<InputMISData> {
                                   validator: (value) {
                                     if (_selectTp == null ||
                                         _selectTp.isEmpty) {
-                                      return 'Please enter Tp';
+                                      return 'Please enter TP';
                                     }
                                     return null;
                                   },
-                                  hint: const Text('Please select Tp'),
+                                  hint: const Text('Please select TP'),
                                   value: _selectTp,
                                   isDense: true,
                                   onChanged: (String? newValue) {
@@ -537,7 +547,6 @@ class _TargetData extends State<InputMISData> {
                                             _selectedIndicatorCode.toString(),
                                         "year":
                                             prefs.getInt(ConstantName().year),
-                                        "target": targetNumber.text,
                                         "month":
                                             prefs.getInt(ConstantName().month),
                                         "actualAchieve": actualAchieve.text,

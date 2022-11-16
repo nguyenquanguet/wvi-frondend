@@ -4,59 +4,53 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vnmo_mis/controllers/mis_controller.dart';
-import 'package:vnmo_mis/model/indicator.dart';
-import 'package:vnmo_mis/model/tp.dart';
-import 'package:vnmo_mis/pages/clients/widgets/input_target.dart';
 import 'package:vnmo_mis/service/mis_service.dart';
 import 'package:vnmo_mis/service/storage/constant_name.dart';
 
 import '../../../constants/condition_size.dart';
 import '../../../helpers/responsiveness.dart';
 
-class OverviewInputTarget extends StatefulWidget {
-  const OverviewInputTarget({Key? key}) : super(key: key);
+class ReviewInputTarget extends StatefulWidget {
+  const ReviewInputTarget({Key? key}) : super(key: key);
 
   @override
-  _OverviewInputTarget createState() => _OverviewInputTarget();
+  _ReviewInputTarget createState() => _ReviewInputTarget();
 }
 
-class _OverviewInputTarget extends State<OverviewInputTarget> {
+class _ReviewInputTarget extends State<ReviewInputTarget> {
   final MisService _misService = MisService();
 
-  final InputTarget _inputTarget = InputTarget();
-
   final MisController counterController = Get.put(MisController());
+
+  int? selectTargetNumber;
+  String? selectApName;
+  String? selectTpName;
+  String? selectIndicatorCode;
+  int? year;
+  int? month;
 
   final _formKey = GlobalKey<FormState>();
 
   bool isLoading = true;
 
-  List<DataTp> listTp = [];
-  List<DataIndicator> indicatorList = [];
-
-  var _selectTp;
-  var _selectedIndicatorCode;
-
   @override
   void initState() {
-    getApTpList();
+    getDataFromSharePref();
     super.initState();
   }
 
-  void getApTpList() async {
-    Tp tpApList = await _misService.getLisTp();
-    listTp = tpApList.data!;
+  void getDataFromSharePref() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    year = pref.getInt(ConstantName().year);
+    month = pref.getInt(ConstantName().month);
+    selectTpName = pref.getString(ConstantName().selectTpName)!;
+    selectIndicatorCode = pref.getString(ConstantName().selectIndicatorCode)!;
+    selectTargetNumber = pref.getInt(ConstantName().selectTargetId)!;
+    selectApName = pref.getString(ConstantName().apName);
+
     Future.delayed(const Duration(milliseconds: 500), () {
       isLoading = false;
       setState(() {});
-    });
-  }
-
-  void getIndicatorList(int? tpId) async {
-    int tp = tpId ?? 0;
-    Indicator indicator = await _misService.getIndicatorByTpId(tp);
-    setState(() {
-      indicatorList = indicator.data!;
     });
   }
 
@@ -74,7 +68,7 @@ class _OverviewInputTarget extends State<OverviewInputTarget> {
         top: 10.0,
       ),
       title: const Text(
-        "Input Target MIS",
+        "Confirm INPUT Target MIS",
         style: TextStyle(fontSize: 24.0),
       ),
       content: isLoading == true
@@ -95,117 +89,61 @@ class _OverviewInputTarget extends State<OverviewInputTarget> {
                     children: <Widget>[
                       Container(
                         padding: const EdgeInsets.all(8.0),
-                        child: FormField<String>(
-                          builder: (FormFieldState<String> state) {
-                            return InputDecorator(
-                              decoration: InputDecoration(
-                                  labelText: 'Tp',
-                                  errorStyle: const TextStyle(
-                                      color: Colors.orange, fontSize: 16.0),
-                                  hintText: 'Please select Tp',
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(5.0)),
-                                  fillColor: Colors.orange),
-                              isEmpty: _selectTp == '',
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButtonFormField<String>(
-                                  validator: (value) {
-                                    if (_selectTp == null ||
-                                        _selectTp.isEmpty) {
-                                      return 'Please enter Tp';
-                                    }
-                                    return null;
-                                  },
-                                  hint: const Text('Please select Tp'),
-                                  value: _selectTp,
-                                  isDense: true,
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      _selectTp = newValue;
-                                      _selectedIndicatorCode != null
-                                          ? _selectedIndicatorCode = null
-                                          : null;
-                                      getIndicatorList(
-                                          int.parse(newValue.toString()));
-                                    });
-                                  },
-                                  items: listTp.map((DataTp value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value.id.toString(),
-                                      child: Text(value.name!),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            );
-                          },
+                        child: TextFormField(
+                          enabled: false,
+                          initialValue: selectApName,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'AP NAME'),
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.all(8.0),
-                        child: FormField<String>(
-                            builder: (FormFieldState<String> state) {
-                          return InputDecorator(
-                            decoration: InputDecoration(
-                                labelText: 'Indicator Code',
-                                errorStyle: const TextStyle(
-                                    color: Colors.orange, fontSize: 10.0),
-                                hintText: 'Please select indicator code',
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5.0)),
-                                fillColor: Colors.orange),
-                            isEmpty: _selectedIndicatorCode == '',
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButtonFormField<String>(
-                                isExpanded: true,
-                                validator: (value) {
-                                  if (_selectedIndicatorCode == null ||
-                                      _selectedIndicatorCode.isEmpty) {
-                                    return 'Please enter some text';
-                                  }
-                                  return null;
-                                },
-                                hint:
-                                    const Text('Please select indicator code'),
-                                value: _selectedIndicatorCode,
-                                isDense: true,
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    _selectedIndicatorCode = newValue;
-                                  });
-                                },
-                                items: indicatorList.map((DataIndicator value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value.code,
-                                    child: Text(
-                                        "${value.code}: ${value.description}"),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          );
-                        }),
+                        child: TextFormField(
+                          enabled: false,
+                          initialValue: year.toString(),
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(), labelText: 'Year'),
+                        ),
                       ),
                       Container(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
-                          enabled: true,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                          ],
-                          onChanged: (value) {
-                          },
-
+                          enabled: false,
+                          initialValue: month.toString(),
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(), labelText: 'Month'),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          enabled: false,
+                          initialValue: selectTpName.toString(),
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'TP NAME'),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          enabled: false,
+                          initialValue: selectIndicatorCode,
+                          decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'INDICATOR ID'),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          enabled: false,
+                          initialValue: selectTargetNumber.toString(),
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(),
                               hintText: 'Enter Target Indicator',
-                              labelText: 'Target for month'),
+                              labelText: 'TARGET'),
                         ),
                       ),
                       Row(
@@ -253,10 +191,10 @@ class _OverviewInputTarget extends State<OverviewInputTarget> {
                                         "apId":
                                             prefs.getInt(ConstantName().apId),
                                         "indicatorCode":
-                                            _selectedIndicatorCode.toString(),
+                                            selectIndicatorCode.toString(),
                                         "year":
                                             prefs.getInt(ConstantName().year),
-                                        "target": targetNumber.text,
+                                        "target": selectTargetNumber,
                                         "month":
                                             prefs.getInt(ConstantName().month),
                                       };
