@@ -1,4 +1,3 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -6,11 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vnmo_mis/controllers/mis_controller.dart';
 import 'package:vnmo_mis/model/indicator.dart';
 import 'package:vnmo_mis/model/tp.dart';
+import 'package:vnmo_mis/pages/clients/widgets/review_input_mis_data.dart';
 import 'package:vnmo_mis/service/mis_service.dart';
-import 'package:vnmo_mis/service/storage/constant_name.dart';
 
-import '../../../constants/condition_size.dart';
 import '../../../helpers/responsiveness.dart';
+import '../../../service/storage/constant_name.dart';
 
 class InputMISData extends StatefulWidget {
   const InputMISData({Key? key}) : super(key: key);
@@ -44,22 +43,40 @@ class _TargetData extends State<InputMISData> {
 
   var _selectTp;
   var _selectedIndicatorCode;
+  String? _selectIndicatorDesciption;
 
-  int? selectActualAchieve;
-  int? selectBoyNumber;
-  int? selectGirlNumber;
-  int? selectMaleNumber;
-  int? selectFemaleNumber;
-  int? selectMvcNumber;
-  int? selectRcNumber;
-  int? selectD1Number;
-  int? selectD2Number;
-  int? selectD3Number;
+  int? selectActualAchieve = 0;
+  int? selectBoyNumber = 0;
+  int? selectGirlNumber = 0;
+  int? selectMaleNumber = 0;
+  int? selectFemaleNumber = 0;
+  int? selectMvcNumber = 0;
+  int? selectRcNumber = 0;
+  int? selectD1Number = 0;
+  int? selectD2Number = 0;
+  int? selectD3Number = 0;
+  String? selectTpName;
 
   @override
   void initState() {
     getApTpList();
     super.initState();
+  }
+
+  void getTpName(int tpId) async {
+    for (int i = 0; i < listTp.length; i++) {
+      if (tpId == listTp.elementAt(i).id) {
+        selectTpName = listTp.elementAt(i).name;
+      }
+    }
+  }
+
+  void getIndicatorDescription(String indicatorCode) async{
+    for(int i = 0; i< indicatorList.length; i++){
+      if(indicatorCode == indicatorList.elementAt(i).code){
+        _selectIndicatorDesciption = indicatorList.elementAt(i).description;
+      }
+    }
   }
 
   void getApTpList() async {
@@ -79,9 +96,7 @@ class _TargetData extends State<InputMISData> {
     });
   }
 
-  void getVisitable(){
-
-  }
+  void getVisitable() {}
 
   @override
   Widget build(BuildContext context) {
@@ -148,6 +163,7 @@ class _TargetData extends State<InputMISData> {
                                       _selectedIndicatorCode != null
                                           ? _selectedIndicatorCode = null
                                           : null;
+                                      getTpName(int.parse(newValue.toString()));
                                       getIndicatorList(
                                           int.parse(newValue.toString()));
                                     });
@@ -195,6 +211,7 @@ class _TargetData extends State<InputMISData> {
                                 onChanged: (String? newValue) {
                                   setState(() {
                                     _selectedIndicatorCode = newValue;
+                                    getIndicatorDescription(newValue.toString());
                                   });
                                 },
                                 items: indicatorList.map((DataIndicator value) {
@@ -223,9 +240,13 @@ class _TargetData extends State<InputMISData> {
                           ],
                           onChanged: (value) {
                             try {
-                              if (value == "") {
+                              if (value == "" || value == "0") {
                                 actualAchieve.text = "0";
+                                selectActualAchieve = 0;
                                 return;
+                              } else {
+                                selectActualAchieve =
+                                    int.parse(value.toString());
                               }
                             } catch (e) {
                               actualAchieve.text = "0";
@@ -252,9 +273,12 @@ class _TargetData extends State<InputMISData> {
                           ],
                           onChanged: (value) {
                             try {
-                              if (value == "") {
+                              if (value == "" || value == "0") {
                                 boyNumber.text = "0";
+                                selectBoyNumber = 0;
                                 return;
+                              } else {
+                                selectBoyNumber = int.parse(value.toString());
                               }
                             } catch (e) {
                               boyNumber.text = "0";
@@ -281,9 +305,12 @@ class _TargetData extends State<InputMISData> {
                           ],
                           onChanged: (value) {
                             try {
-                              if (value == "") {
+                              if (value == ""|| value == "0") {
                                 girlNumber.text = "0";
+                                selectGirlNumber = 0;
                                 return;
+                              } else {
+                                selectGirlNumber = int.parse(value.toString());
                               }
                             } catch (e) {
                               girlNumber.text = "0";
@@ -310,10 +337,12 @@ class _TargetData extends State<InputMISData> {
                           ],
                           onChanged: (value) {
                             try {
-                              if (value == "") {
+                              if (value == ""|| value == "0") {
                                 maleNumber.text = "0";
+                                selectMaleNumber = 0;
                                 return;
                               }
+                              selectMaleNumber = int.parse(value.toString());
                             } catch (e) {
                               maleNumber.text = "0";
                             }
@@ -339,9 +368,13 @@ class _TargetData extends State<InputMISData> {
                           ],
                           onChanged: (value) {
                             try {
-                              if (value == "") {
+                              if (value == "" || value == "0") {
                                 femaleNumber.text = "0";
+                                selectFemaleNumber = 0;
                                 return;
+                              } else {
+                                selectFemaleNumber =
+                                    int.parse(value.toString());
                               }
                             } catch (e) {
                               femaleNumber.text = "0";
@@ -368,9 +401,12 @@ class _TargetData extends State<InputMISData> {
                           ],
                           onChanged: (value) {
                             try {
-                              if (value == "") {
+                              if (value == "" || value == "0") {
                                 mvc.text = "0";
+                                selectMvcNumber = 0;
                                 return;
+                              } else {
+                                selectMvcNumber = int.parse(value.toString());
                               }
                             } catch (e) {
                               mvc.text = "0";
@@ -397,9 +433,12 @@ class _TargetData extends State<InputMISData> {
                           ],
                           onChanged: (value) {
                             try {
-                              if (value == "") {
+                              if (value == "" || value == "0") {
                                 rc.text = "0";
+                                selectRcNumber = 0;
                                 return;
+                              } else {
+                                selectRcNumber = int.parse(value.toString());
                               }
                             } catch (e) {
                               rc.text = "0";
@@ -426,9 +465,12 @@ class _TargetData extends State<InputMISData> {
                           ],
                           onChanged: (value) {
                             try {
-                              if (value == "") {
+                              if (value == "" || value == "0") {
                                 d1.text = "0";
+                                selectD1Number = 0;
                                 return;
+                              } else {
+                                selectD1Number = int.parse(value.toString());
                               }
                             } catch (e) {
                               d1.text = "0";
@@ -455,9 +497,12 @@ class _TargetData extends State<InputMISData> {
                           ],
                           onChanged: (value) {
                             try {
-                              if (value == "") {
+                              if (value == "" || value == "0") {
                                 d2.text = "0";
+                                selectD2Number = 0;
                                 return;
+                              } else {
+                                selectD2Number = int.parse(value.toString());
                               }
                             } catch (e) {
                               d2.text = "0";
@@ -484,9 +529,12 @@ class _TargetData extends State<InputMISData> {
                           ],
                           onChanged: (value) {
                             try {
-                              if (value == "") {
+                              if (value == "" || value == "0") {
                                 d3.text = "0";
+                                selectD3Number = 0;
                                 return;
+                              } else {
+                                selectD3Number = int.parse(value.toString());
                               }
                             } catch (e) {
                               d3.text = "0";
@@ -535,77 +583,54 @@ class _TargetData extends State<InputMISData> {
                               padding: const EdgeInsets.all(8.0),
                               child: ElevatedButton(
                                   onPressed: () async {
-                                    SharedPreferences prefs =
-                                        await SharedPreferences.getInstance();
                                     if (_formKey.currentState!.validate()) {
-                                      var jsons = {
-                                        "username": prefs
-                                            .getString(ConstantName().username),
-                                        "apId":
-                                            prefs.getInt(ConstantName().apId),
-                                        "indicatorCode":
-                                            _selectedIndicatorCode.toString(),
-                                        "year":
-                                            prefs.getInt(ConstantName().year),
-                                        "month":
-                                            prefs.getInt(ConstantName().month),
-                                        "actualAchieve": actualAchieve.text,
-                                        "boyNumber": boyNumber.text,
-                                        "girlNumber": girlNumber.text,
-                                        "maleNumber": maleNumber.text,
-                                        "femaleNumber": femaleNumber.text,
-                                        "mvc": mvc.text,
-                                        "rc": rc.text,
-                                        "d1": d1.text,
-                                        "d2": d2.text,
-                                        "d3": d3.text
-                                      };
-                                      int status =
-                                          await _misService.createData(jsons);
-                                      if (status == 200) {
-                                        AwesomeDialog(
-                                          width: checkConditionWidth(context),
-                                          bodyHeaderDistance: 60,
+                                      SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+
+                                      prefs.setString(
+                                          ConstantName().selectTpName,
+                                          selectTpName.toString());
+                                      prefs.setString(
+                                          ConstantName().selectIndicatorCode,
+                                          _selectedIndicatorCode);
+                                      prefs.setInt(
+                                          ConstantName().selectActualAchieve,
+                                          selectActualAchieve!);
+                                      prefs.setInt(
+                                          ConstantName().selectBoyNumber,
+                                          selectBoyNumber!);
+                                      prefs.setInt(
+                                          ConstantName().selectGirlNumber,
+                                          selectGirlNumber!);
+                                      prefs.setInt(
+                                          ConstantName().selectMaleNumber,
+                                          selectMaleNumber!);
+                                      prefs.setInt(
+                                          ConstantName().selectFemaleNumber,
+                                          selectFemaleNumber!);
+                                      prefs.setInt(
+                                          ConstantName().selectMvcNumber,
+                                          selectMvcNumber!);
+                                      prefs.setInt(
+                                          ConstantName().selectRcNumber,
+                                          selectRcNumber!);
+                                      prefs.setInt(
+                                          ConstantName().selectD1Number,
+                                          selectD1Number!);
+                                      prefs.setInt(
+                                          ConstantName().selectD2Number,
+                                          selectD2Number!);
+                                      prefs.setInt(
+                                          ConstantName().selectD3Number,
+                                          selectD3Number!);
+                                      prefs.setString(ConstantName()
+                                          .selectIndicatorDescription,
+                                          _selectIndicatorDesciption!);
+                                      showDialog(
                                           context: context,
-                                          animType: AnimType.SCALE,
-                                          dialogType: DialogType.SUCCES,
-                                          body: const Center(
-                                            child: Text(
-                                              'Insert Successfully.',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 16),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          title:
-                                              'Insert for ${prefs.getString(ConstantName().apName)}',
-                                          desc: '',
-                                          btnOkOnPress: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ).show();
-                                      } else {
-                                        AwesomeDialog(
-                                          width: checkConditionWidth(context),
-                                          bodyHeaderDistance: 60,
-                                          context: context,
-                                          animType: AnimType.SCALE,
-                                          dialogType: DialogType.ERROR,
-                                          body: const Center(
-                                            child: Text(
-                                              'Failed to create data please try again.',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 16),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          title: 'Failed',
-                                          desc: '',
-                                          btnOkOnPress: () {},
-                                        ).show();
-                                      }
+                                          builder: (_) {
+                                            return const ReviewInputMisData();
+                                          });
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -617,7 +642,7 @@ class _TargetData extends State<InputMISData> {
                                         50),
                                   ),
                                   child: const Text(
-                                    "Submit",
+                                    "Review",
                                   )),
                             )
                           ])

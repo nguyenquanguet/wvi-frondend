@@ -286,7 +286,7 @@ class _TargetData extends State<InputTarget> {
                                         50),
                                   ),
                                   child: const Text(
-                                    "Submit",
+                                    "Review",
                                   )),
                             )
                           ])
